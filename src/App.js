@@ -1,4 +1,5 @@
 import { useFormik } from "formik";
+import * as Yup from "yup";
 import Input from "./components/Input";
 
 const App = () => {
@@ -13,6 +14,13 @@ const App = () => {
       dateOfBirth: "2018-07-22",
       gitHub: "",
     },
+    validationSchema: Yup.object().shape({
+      email: Yup.string().required("Vous devez entrer un email"),
+      firstName: Yup.string().required("Vous devez entrer votre prénom"),
+      lastName: Yup.string().required("Vous devez entrer votre nom"),
+      userName: Yup.string().min(4, "Pseudo trop court"),
+      password: Yup.string().min(5, "Mot de passe trop court").matches()
+    }),
     onSubmit: (values) => {
       console.log(values);
     },
@@ -69,14 +77,14 @@ const App = () => {
         type="date"
         onChange={formik.handleChange}
         value={formik.values.dateOfBirth}
-        placeholder="Enter your email"
+        placeholder="Enter your date of birth"
       />
       <Input
         name="github"
-        type="email"
+        type="url"
         onChange={formik.handleChange}
         value={formik.values.gitHub}
-        placeholder="Enter your email"
+        placeholder="Enter your gitHub"
       />
       <button type="submit">Valider</button>
     </form>
